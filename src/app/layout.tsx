@@ -13,10 +13,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body
-				// className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				className="w-dvw h-dvh bg-page-bg"
-			>
+			<body className="w-dvw h-dvh bg-page-bg text-standard-color text-standard-size">
 				{children}
 			</body>
 		</html>

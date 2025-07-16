@@ -3,10 +3,17 @@
 @theme {
   --color-page-bg: #535353;
   --color-box-bg: #3B3B3B;
+  --color-standard-color: #D1D1D1;
+  --color-essentials: #00EA0A;
+  --color-rest: #FF0000;
+  
+  --text-standard-size: 1.6rem;
+}
+
+html {
+  font-size: 62.5%;
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
