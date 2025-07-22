@@ -2,6 +2,7 @@
 
 import { IExpensesSummaryDTO } from "@/app/dtos/expenses/ExpensesSummaryDTO";
 import { api } from "../api";
+import { asyncStall } from "@/app/utils-dev/asyncStall";
 
 interface IRequest {
   startDate?: Date;
@@ -12,6 +13,8 @@ export async function getExpensesSummaryHttp({
   startDate, 
   endDate 
 }: IRequest): Promise<IExpensesSummaryDTO> {
+  await asyncStall();
+
   try {
     const response = await api.get('/expense/summary', {
     params: {

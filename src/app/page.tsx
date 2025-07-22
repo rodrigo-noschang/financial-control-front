@@ -1,4 +1,4 @@
-import { FinancialData } from "./pages/financial-data";
+import { FinancialData } from "./pages/FinancialData";
 
 export default function Home() {
 	return <FinancialData />;

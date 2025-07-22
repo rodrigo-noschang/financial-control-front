@@ -13,7 +13,7 @@ export function FinancialData() {
 
 	const {
 		data: focusMonthsExpensesSummary,
-		// isLoading,
+		isLoading,
 		// isFetching,
 	} = useQuery<IExpensesSummaryDTO>({
 		queryKey: ["get-current-expenses-summary"],
@@ -58,6 +58,7 @@ export function FinancialData() {
 							essentials={focusMonthsEssentials}
 							rest={focusMonthsRest}
 							total={focusMonthsTotal}
+							isLoading={isLoading}
 						/>
 					</MonthSummary.Root>
 
@@ -70,6 +71,7 @@ export function FinancialData() {
 							essentials={previousMonthsEssentials}
 							rest={previousMonthsRest}
 							total={previousMonthsTotal}
+							isLoading={isLoading}
 						/>
 					</MonthSummary.Root>
 				</div>
