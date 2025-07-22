@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { QueryClientProvider } from "./providers/query-client";
 
 export const metadata: Metadata = {
 	title: "Financial Control",
@@ -14,7 +15,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="w-dvw h-dvh bg-page-bg text-standard-color text-standard-size">
-				{children}
+				<QueryClientProvider>{children}</QueryClientProvider>
 			</body>
 		</html>
 	);
