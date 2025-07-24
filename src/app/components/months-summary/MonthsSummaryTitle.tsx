@@ -1,19 +1,26 @@
-import { format } from "date-fns";
+import { format, getDate } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface IProps {
-	date: Date;
-	reference: "current" | "previous";
+	startDate: Date;
+	endDate: Date;
 }
 
-export function MonthsSummaryTitle({ date, reference }: IProps) {
-	const monthName = format(date, "LLLL", { locale: ptBR });
-	const referenceText = reference === "current" ? "Este mês" : "Mês anterior";
+export function MonthsSummaryTitle({ startDate, endDate }: IProps) {
+	const startMonthName = format(startDate, "LLLL", { locale: ptBR });
+	const endMonthName = format(endDate, "LLLL", { locale: ptBR });
+
+	const startDay = getDate(startDate);
+	const endDay = getDate(endDate);
+
+	const summaryRangeReference =
+		startMonthName == endMonthName
+			? `${startDay} a ${endDay} de ${startMonthName}`
+			: `${startDay} de ${startMonthName} a ${endDay} de ${endMonthName}`;
 
 	return (
-		<div className="text-standard-size font-bold">
-			{" "}
-			{referenceText} ({monthName}){" "}
+		<div className="text-standard-size">
+			Resumo de <span className="font-bold">{summaryRangeReference}</span>
 		</div>
 	);
 }

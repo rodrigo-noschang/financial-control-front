@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryClientProvider } from "./providers/query-client";
 
 import "./globals.css";
@@ -17,7 +19,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className="w-dvw h-dvh bg-page-bg text-standard-color text-standard-size">
-				<QueryClientProvider>{children}</QueryClientProvider>
+				<QueryClientProvider>
+					<NuqsAdapter>{children}</NuqsAdapter>
+				</QueryClientProvider>
 			</body>
 		</html>
 	);
