@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useQueryState } from "nuqs";
+import { parseAsIsoDate, useQueryStates } from "nuqs";
 import { ptBR } from "date-fns/locale";
-import { addHours, format } from "date-fns";
+// import { addHours, format } from "date-fns";
 
 import { Calendar } from "@/components/ui/calendar";
 import { CancelButton } from "../cancel-button/CancelButton";
@@ -11,23 +11,33 @@ import {
 	IDateRange,
 	ISetDateRangeParam,
 } from "@/app/props/calendar-range-input-props";
+import { addHours } from "date-fns";
 
 interface IProps {
-	defaultFrom: string;
-	defaultTo: string;
+	defaultFrom: Date;
+	defaultTo: Date;
+	isLoading?: boolean;
 }
 
 export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
-	const [paramFrom, setParamFrom] = useQueryState("from", {
-		defaultValue: defaultFrom,
-	});
-	const [paramTo, setParamTo] = useQueryState("to", {
-		defaultValue: defaultTo,
-	});
+	const [paramRange, setParamRange] = useQueryStates(
+		{
+			from: parseAsIsoDate.withDefault(defaultFrom),
+			to: parseAsIsoDate.withDefault(defaultTo),
+		},
+		{
+			history: "push",
+		}
+	);
+
+	// const [date, setDate] = useState<IDateRange | undefined>({
+	// 	from: addHours(new Date(paramFrom!), 12),
+	// 	to: addHours(new Date(paramTo!), 12),
+	// });
 
 	const [date, setDate] = useState<IDateRange | undefined>({
-		from: addHours(new Date(paramFrom!), 12),
-		to: addHours(new Date(paramTo!), 12),
+		from: addHours(paramRange.from, 12),
+		to: addHours(paramRange.to, 12),
 	});
 
 	function handleSetDateRange(data: ISetDateRangeParam | undefined) {
@@ -36,16 +46,24 @@ export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
 			return;
 		}
 
-		setDate({
-			from: data.from,
-			to: data.to,
-		});
+		const from = data.from ?? date?.from;
+		const to = data.to ?? date?.to;
+
+		setDate({ from, to });
 	}
 
 	function triggerSummaryRefetch() {
+		console.log("🚀 ~ triggerSummaryRefetch ~ date:", date);
 		if (date?.from && date?.to) {
-			setParamFrom(format(date.from, "yyyy-MM-dd"));
-			setParamTo(format(date.to, "yyyy-MM-dd"));
+			setParamRange(
+				{
+					from: date.from,
+					to: date.to,
+				},
+				{
+					history: "replace",
+				}
+			);
 		}
 	}
 

@@ -15,6 +15,7 @@ export function QueryClientProvider({ children }: IQueryClientProviderProps) {
 		defaultOptions: {
 			queries: {
 				retry: false,
+				refetchOnWindowFocus: false,
 			},
 		},
 	});

@@ -1,8 +1,8 @@
 "use client";
 
-import { useQueryState } from "nuqs";
+import { parseAsIsoDate, useQueryStates } from "nuqs";
 import { useQuery } from "@tanstack/react-query";
-import { addHours, endOfMonth, format, startOfMonth } from "date-fns";
+import { addHours, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 
 import { MonthSummary } from "../components/months-summary";
 import { MonthsSummaryTitle } from "../components/months-summary/MonthsSummaryTitle";
@@ -11,22 +11,25 @@ import { IExpensesSummaryDTO } from "../dtos/expenses/ExpensesSummaryDTO";
 import { getExpensesSummaryHttp } from "../http/expenses/getExpensesSummary";
 
 export function FinancialData() {
-	const [paramFrom] = useQueryState("from", {
-		defaultValue: format(addHours(startOfMonth(new Date()), 12), "yyyy-MM-dd"),
-	});
-	const [paramTo] = useQueryState("to", {
-		defaultValue: format(addHours(endOfMonth(new Date()), 12), "yyyy-MM-dd"),
-	});
+	const [paramRange] = useQueryStates(
+		{
+			from: parseAsIsoDate.withDefault(startOfMonth(new Date())),
+			to: parseAsIsoDate.withDefault(startOfDay(endOfMonth(new Date()))),
+		},
+		{
+			history: "push",
+		}
+	);
 
-	const dateFrom = addHours(paramFrom, 12);
-	const dateTo = addHours(paramTo, 12);
+	const dateFrom = addHours(paramRange.from, 12);
+	const dateTo = addHours(paramRange.to, 12);
 
 	const {
 		data: focusMonthsExpensesSummary,
 		isLoading,
 		isFetching,
 	} = useQuery<IExpensesSummaryDTO>({
-		queryKey: ["get-current-expenses-summary", paramFrom, paramTo],
+		queryKey: ["get-current-expenses-summary", dateFrom, dateTo],
 		queryFn: () => {
 			return getExpensesSummaryHttp({
 				startDate: dateFrom,
@@ -42,14 +45,16 @@ export function FinancialData() {
 
 	return (
 		<div className="flex justify-center">
-			<div className="grow max-w-[1200px] mt-20">
-				<div className="flex justify-between">
+			<div className="grow max-w-[1200px] mt-20 px-8">
+				<div className="flex justify-center min-[500px]:justify-start">
 					<MonthSummary.Root>
 						<MonthSummary.Header>
 							<MonthsSummaryTitle startDate={dateFrom} endDate={dateTo} />
 							<MonthSummary.DatePicker
-								defaultFrom={paramFrom}
-								defaultTo={paramTo}
+								key={`${dateFrom}_||_${dateTo}`}
+								defaultFrom={dateFrom}
+								defaultTo={dateTo}
+								isLoading={isLoading || isFetching}
 							/>
 						</MonthSummary.Header>
 
@@ -60,22 +65,6 @@ export function FinancialData() {
 							isLoading={isLoading || isFetching}
 						/>
 					</MonthSummary.Root>
-
-					{/* <MonthSummary.Root>
-						<MonthSummary.Header>
-							<MonthsSummaryTitle
-								date={previousDate.from}
-								reference="previous"
-							/>
-						</MonthSummary.Header>
-
-						<MonthSummary.Values
-							essentials={previousMonthsEssentials}
-							rest={previousMonthsRest}
-							total={previousMonthsTotal}
-							isLoading={isLoading || isFetching}
-						/>
-					</MonthSummary.Root> */}
 				</div>
 			</div>
 		</div>

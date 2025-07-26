@@ -25,7 +25,10 @@ export function MonthsSummaryValues({
 				{isLoading ? (
 					<SkeletonLoad width={75} />
 				) : (
-					<span className="font-bold"> {formattedEssentials} </span>
+					<span className="font-bold min-w-[75px]">
+						{" "}
+						{formattedEssentials}{" "}
+					</span>
 				)}
 			</div>
 
@@ -34,7 +37,7 @@ export function MonthsSummaryValues({
 				{isLoading ? (
 					<SkeletonLoad width={75} />
 				) : (
-					<span className="font-bold"> {formattedRest} </span>
+					<span className="font-bold min-w-[75px]"> {formattedRest} </span>
 				)}
 			</div>
 
@@ -43,7 +46,7 @@ export function MonthsSummaryValues({
 				{isLoading ? (
 					<SkeletonLoad width={75} />
 				) : (
-					<span className="font-bold"> {formattedTotal} </span>
+					<span className="font-bold min-w-[75px]"> {formattedTotal} </span>
 				)}
 			</div>
 		</div>
