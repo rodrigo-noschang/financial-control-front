@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { parseAsIsoDate, useQueryStates } from "nuqs";
 import { ptBR } from "date-fns/locale";
-// import { addHours, format } from "date-fns";
+import { parseAsIsoDate, useQueryStates } from "nuqs";
 
 import { Calendar } from "@/components/ui/calendar";
 import { CancelButton } from "../cancel-button/CancelButton";
@@ -11,7 +10,6 @@ import {
 	IDateRange,
 	ISetDateRangeParam,
 } from "@/app/props/calendar-range-input-props";
-import { addHours } from "date-fns";
 
 interface IProps {
 	defaultFrom: Date;
@@ -30,14 +28,9 @@ export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
 		}
 	);
 
-	// const [date, setDate] = useState<IDateRange | undefined>({
-	// 	from: addHours(new Date(paramFrom!), 12),
-	// 	to: addHours(new Date(paramTo!), 12),
-	// });
-
 	const [date, setDate] = useState<IDateRange | undefined>({
-		from: addHours(paramRange.from, 12),
-		to: addHours(paramRange.to, 12),
+		from: paramRange.from,
+		to: paramRange.to,
 	});
 
 	function handleSetDateRange(data: ISetDateRangeParam | undefined) {
@@ -53,7 +46,6 @@ export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
 	}
 
 	function triggerSummaryRefetch() {
-		console.log("🚀 ~ triggerSummaryRefetch ~ date:", date);
 		if (date?.from && date?.to) {
 			setParamRange(
 				{
