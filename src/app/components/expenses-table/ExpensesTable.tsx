@@ -1,4 +1,5 @@
 import { IExpenseDTO } from "@/app/dtos/expenses/ExpenseDTO";
+import { cn } from "@/app/utils/cn";
 import { formatCurrencyValue } from "@/app/utils/formatCurrencyValue";
 import { addHours, format } from "date-fns";
 
@@ -36,10 +37,20 @@ export function ExpensesTable({ expenses }: IProps) {
 						<span className="text-center w-[70px]">
 							{format(addHours(expense.date, 12), "dd/MM/yyyy")}
 						</span>
-						<span className="text-center w-[100px]">
+						<span
+							className={cn(
+								"text-center w-[100px]",
+								expense.essential ? "text-table-essentials" : "text-table-rest"
+							)}
+						>
 							{expense.essential ? "Sim" : "Não"}
 						</span>
-						<span className="text-center w-[100px]">
+						<span
+							className={cn(
+								"text-center w-[100px]",
+								expense.recurrent ? "text-table-essentials" : "text-table-rest"
+							)}
+						>
 							{expense.recurrent ? "Sim" : "Não"}
 						</span>
 					</div>

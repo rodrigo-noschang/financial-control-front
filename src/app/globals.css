@@ -7,8 +7,10 @@
   --color-page-bg: #535353;
   --color-box-bg: #3B3B3B;
   --color-standard-color: #D1D1D1;
-  --color-essentials: #00EA0A;
-  --color-rest: #FF0000;
+  --color-summary-essentials: #00EA0A;
+  --color-summary-rest: #FF0000;
+  --color-table-rest: #930000;
+  --color-table-essentials: #00fd0b;
   --color-table-header: #343434;
   --color-table-row-dark: #515151;
   --color-table-row-light: #646464;

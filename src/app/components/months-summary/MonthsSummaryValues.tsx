@@ -21,7 +21,7 @@ export function MonthsSummaryValues({
 	return (
 		<div className="flex items-center gap-16 mt-8">
 			<div className="flex flex-col">
-				<span className="text-essentials">Essenciais</span>
+				<span className="text-summary-essentials">Essenciais</span>
 				{isLoading ? (
 					<SkeletonLoad width={75} />
 				) : (
@@ -33,7 +33,7 @@ export function MonthsSummaryValues({
 			</div>
 
 			<div className="flex flex-col">
-				<span className="text-rest">Restôio</span>
+				<span className="text-summary-rest">Restôio</span>
 				{isLoading ? (
 					<SkeletonLoad width={75} />
 				) : (
