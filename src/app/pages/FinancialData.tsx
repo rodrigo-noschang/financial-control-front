@@ -12,6 +12,9 @@ import { getExpensesSummaryHttp } from "../http/expenses/getExpensesSummary";
 import { ExpensesTable } from "../components/expenses-table/ExpensesTable";
 import { IListExpensesResponseDTO } from "../dtos/responses/ListExpensesResponseDTO";
 import { listExpensesHttp } from "../http/expenses/listExpenses";
+import { CreateExpenseForm } from "../components/create-expense-form/CreateExpenseForm";
+import { GenericDialog } from "../components/generic-dialog/GenericDialog";
+import { GenericButton } from "../components/generic-button/GenericButton";
 
 export function FinancialData() {
 	const [paramRange] = useQueryStates(
@@ -80,6 +83,11 @@ export function FinancialData() {
 						/>
 					</MonthSummary.Root>
 				</div>
+
+				<GenericDialog
+					trigger={<GenericButton text="Criar despesa" />}
+					content={<CreateExpenseForm />}
+				/>
 
 				<div className="mt-20">
 					<ExpensesTable expenses={expenses} />

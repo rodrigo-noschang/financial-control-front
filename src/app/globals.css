@@ -7,6 +7,7 @@
   --color-page-bg: #535353;
   --color-box-bg: #3B3B3B;
   --color-standard-color: #D1D1D1;
+  --color-standard-color-dark: #363636;
   --color-summary-essentials: #00EA0A;
   --color-summary-rest: #FF0000;
   --color-table-rest: #930000;
@@ -14,8 +15,11 @@
   --color-table-header: #343434;
   --color-table-row-dark: #515151;
   --color-table-row-light: #646464;
+  --color-required-start: #fb2020;
 
   --text-standard-size: 1.6rem;
+  --text-section-title: 1.8rem;
+  --text-page-title: 2rem;
 }
 
 html {
