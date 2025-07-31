@@ -17,7 +17,11 @@ interface IProps {
 	isLoading?: boolean;
 }
 
-export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
+export function CalendarRangeInput({
+	defaultFrom,
+	defaultTo,
+	isLoading,
+}: IProps) {
 	const [paramRange, setParamRange] = useQueryStates(
 		{
 			from: parseAsIsoDate.withDefault(defaultFrom),
@@ -77,7 +81,11 @@ export function CalendarRangeInput({ defaultFrom, defaultTo }: IProps) {
 			<div className="mt-6 flex justify-between items-center">
 				<CancelButton />
 
-				<GenericButton text="Pesquisar" onClick={triggerSummaryRefetch} />
+				<GenericButton
+					text="Pesquisar"
+					onClick={triggerSummaryRefetch}
+					isLoading={isLoading}
+				/>
 			</div>
 		</div>
 	);

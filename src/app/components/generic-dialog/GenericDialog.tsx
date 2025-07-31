@@ -20,7 +20,7 @@ export function GenericDialog({ trigger, content, maxWidth = 450 }: IProps) {
 
 			<DialogContent
 				aria-describedby={undefined}
-				className="bg-page-bg"
+				className="bg-modal-bg"
 				style={{ maxWidth: `clamp(300px, 90vw, ${maxWidth}px)` }}
 			>
 				<DialogTitle className="hidden"></DialogTitle>

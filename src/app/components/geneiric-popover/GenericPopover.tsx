@@ -18,6 +18,7 @@ export function GenericPopover({ trigger, children, maxWidth = 320 }: IProps) {
 			<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 
 			<PopoverContent
+				className="bg-page-bg border-1-black"
 				style={{
 					minWidth: `clamp(300px, 90vw, ${maxWidth}px)`,
 					maxWidth: `clamp(300px, 90vw, ${maxWidth}px)`,
