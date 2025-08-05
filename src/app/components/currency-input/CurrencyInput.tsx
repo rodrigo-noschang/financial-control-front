@@ -1,18 +1,28 @@
+import React from "react";
+
 import { cn } from "@/app/utils/cn";
 import { formatCurrencyInput } from "@/app/utils/formatCurrencyInput";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
 
 interface IProps extends React.ComponentProps<"input"> {
 	label?: string;
-	labelClassName?: string;
+	formOnChange?: (value: string) => void;
 }
 
-export function CurrencyInput({ label, ...rest }: IProps) {
+export function CurrencyInput({ label, formOnChange, ...rest }: IProps) {
 	const formattedValue = rest.value
 		? formatCurrencyInput({ value: rest.value.toString() })
 		: undefined;
+
+	function handleOnChange(value: string) {
+		const formattedValue = formatCurrencyInput({ value });
+
+		if (formOnChange && formattedValue) {
+			formOnChange(formattedValue);
+		}
+	}
 
 	return (
 		<div>
@@ -25,7 +35,7 @@ export function CurrencyInput({ label, ...rest }: IProps) {
 			<Input
 				{...rest}
 				value={formattedValue}
-				onChange={(e) => formatCurrencyInput({ value: e.target.value })}
+				onChange={(e) => handleOnChange(e.target.value)}
 				id={rest.id ?? rest.placeholder}
 				className={cn("mt-4 px-4 py-2", rest.className)}
 			/>

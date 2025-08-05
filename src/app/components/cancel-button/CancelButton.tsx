@@ -12,7 +12,7 @@ export function CancelButton({ text = "Cancelar", ...rest }: IProps) {
 		<Button
 			{...rest}
 			className={cn(
-				"bg-gray-200 text-black font-normal p-6 hover:bg-gray-300 transition-[0.3s]",
+				"bg-gray-200 text-black font-normal hover:bg-gray-300 transition-[0.3s]",
 				rest.className
 			)}
 		>

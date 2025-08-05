@@ -1,8 +1,22 @@
 import z from "zod";
 
-export const createExpenseSchema = z.object({
-	category_id: z.string("Selecione uma despesa"),
-	amount: z.string("Informa a quantia gasta"),
-});
+export const createExpenseSchema = z
+	.object({
+		category_id: z.string("Selecione uma despesa"),
+		amount: z
+			.string("Informa a quantia gasta")
+			.min(0.1, "Informe o valor da despesa"),
+		expense_date: z.date("Informe uma data"),
+	})
+	.transform((form) => {
+		const categoryId = form.category_id.split("_||_")[0];
+		const amount = form.amount.replace(/\D/g, "");
+
+		return {
+			category_id: categoryId,
+			amount,
+			expense_date: form.expense_date,
+		};
+	});
 
 export type CreateExpenseData = z.infer<typeof createExpenseSchema>;
