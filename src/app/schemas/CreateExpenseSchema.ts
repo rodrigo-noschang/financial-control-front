@@ -7,6 +7,8 @@ export const createExpenseSchema = z
 			.string("Informa a quantia gasta")
 			.min(0.1, "Informe o valor da despesa"),
 		expense_date: z.date("Informe uma data"),
+		essential: z.boolean(),
+		recurrent: z.boolean(),
 	})
 	.transform((form) => {
 		const categoryId = form.category_id.split("_||_")[0];
@@ -16,6 +18,8 @@ export const createExpenseSchema = z
 			category_id: categoryId,
 			amount,
 			expense_date: form.expense_date,
+			essential: form.essential,
+			recurrent: form.recurrent,
 		};
 	});
 

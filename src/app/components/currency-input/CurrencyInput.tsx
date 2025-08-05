@@ -35,6 +35,7 @@ export function CurrencyInput({ label, formOnChange, ...rest }: IProps) {
 			<Input
 				{...rest}
 				value={formattedValue}
+				inputMode="numeric"
 				onChange={(e) => handleOnChange(e.target.value)}
 				id={rest.id ?? rest.placeholder}
 				className={cn("mt-4 px-4 py-2", rest.className)}

@@ -16,6 +16,8 @@ import { GenericPopover } from "../geneiric-popover/GenericPopover";
 import { BsCalendar2Date } from "react-icons/bs";
 import { CalendarInput } from "../calendar-input/CalendarInput";
 import { format } from "date-fns";
+import { GenericCheckbox } from "../generic-checkbox/GenericCheckbox";
+import { GenericTextArea } from "../text-area/GenericTextArea";
 
 export function CreateExpenseForm() {
 	const form = useForm({
@@ -23,10 +25,10 @@ export function CreateExpenseForm() {
 		defaultValues: {
 			amount: "0",
 			expense_date: new Date(),
+			essential: false,
+			recurrent: false,
 		},
 	});
-
-	console.log("errros - ", form.formState.errors);
 
 	const { data: categories } = useQuery<ICategoryDTO[]>({
 		queryKey: ["list-categories"],
@@ -51,7 +53,7 @@ export function CreateExpenseForm() {
 			<form onSubmit={form.handleSubmit(handleCreateExpense)}>
 				<div className="text-page-title"> Nova despesa </div>
 
-				<div className="flex justify-between items-center mt-8">
+				<div className="flex justify-between items-center mt-10">
 					<div className="max-w-[300px]">
 						<FormField
 							control={form.control}
@@ -94,7 +96,7 @@ export function CreateExpenseForm() {
 					</div>
 				</div>
 
-				<div className="border-t-1 border-t-light-border mt-8 pt-4">
+				<div className="border-t-1 border-t-light-border mt-10 pt-10">
 					<div className="max-w-[300px]">
 						<FormField
 							control={form.control}
@@ -129,6 +131,50 @@ export function CreateExpenseForm() {
 							)}
 						/>
 					</div>
+				</div>
+
+				<div className="mt-10 flex items-center justify-between">
+					<div className="max-w-[120px]">
+						<FormField
+							control={form.control}
+							name="essential"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<GenericCheckbox
+											id="essential"
+											label="Essencial"
+											checked={field.value}
+											formOnChange={field.onChange}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+					</div>
+
+					<div className="max-w-[120px]">
+						<FormField
+							control={form.control}
+							name="recurrent"
+							render={({ field }) => (
+								<FormItem>
+									<FormControl>
+										<GenericCheckbox
+											id="recurrent"
+											label="Recorrente"
+											checked={field.value}
+											formOnChange={field.onChange}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+					</div>
+				</div>
+
+				<div className="border-t-1 border-t-light-border mt-10 pt-10">
+					<GenericTextArea label="Descrição" />
 				</div>
 
 				<div className="mt-10">

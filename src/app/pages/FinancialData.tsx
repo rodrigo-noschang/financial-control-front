@@ -84,10 +84,12 @@ export function FinancialData() {
 					</MonthSummary.Root>
 				</div>
 
-				<GenericDialog
-					trigger={<GenericButton text="Criar despesa" />}
-					content={<CreateExpenseForm />}
-				/>
+				<div className="mt-20">
+					<GenericDialog
+						trigger={<GenericButton text="Criar despesa" />}
+						content={<CreateExpenseForm />}
+					/>
+				</div>
 
 				<div className="mt-20">
 					<ExpensesTable expenses={expenses} />
