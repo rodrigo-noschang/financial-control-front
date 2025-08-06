@@ -1,7 +1,8 @@
-import { IExpenseDTO } from "@/app/dtos/expenses/ExpenseDTO";
-import { cn } from "@/app/utils/cn";
-import { formatCurrencyValue } from "@/app/utils/formatCurrencyValue";
 import { addHours, format } from "date-fns";
+
+import { cn } from "@/app/utils/cn";
+import { IExpenseDTO } from "@/app/dtos/expenses/ExpenseDTO";
+import { formatCurrencyValue } from "@/app/utils/formatCurrencyValue";
 
 interface IProps {
 	expense: IExpenseDTO;

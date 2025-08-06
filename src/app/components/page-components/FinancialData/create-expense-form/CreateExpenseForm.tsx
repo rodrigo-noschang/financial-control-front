@@ -1,40 +1,70 @@
-import { useQuery } from "@tanstack/react-query";
-import { listCategoriesHttp } from "@/app/http/categories/listCategories";
-import { ICategoryDTO } from "@/app/dtos/categories/CategoryDTO";
-import { GenericCombobox } from "../generic-combobox/GenericCombobox";
-import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
 import { useForm } from "react-hook-form";
+import { format, subHours } from "date-fns";
+import { BsCalendar2Date } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { GenericTextArea } from "../../../text-area/GenericTextArea";
+import { CurrencyInput } from "../../../currency-input/CurrencyInput";
+import { GenericButton } from "../../../generic-button/GenericButton";
+import { CalendarInput } from "../../../calendar-input/CalendarInput";
+import { GenericPopover } from "../../../generic-popover/GenericPopover";
+import { GenericCombobox } from "../../../generic-combobox/GenericCombobox";
+import { GenericCheckbox } from "../../../generic-checkbox/GenericCheckbox";
+import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
+
 import {
 	CreateExpenseData,
+	CreateExpenseHttpData,
 	createExpenseSchema,
 } from "@/app/schemas/CreateExpenseSchema";
-import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
-import { CurrencyInput } from "../currency-input/CurrencyInput";
-import { GenericButton } from "../generic-button/GenericButton";
-import { GenericPopover } from "../geneiric-popover/GenericPopover";
-import { BsCalendar2Date } from "react-icons/bs";
-import { CalendarInput } from "../calendar-input/CalendarInput";
-import { format } from "date-fns";
-import { GenericCheckbox } from "../generic-checkbox/GenericCheckbox";
-import { GenericTextArea } from "../text-area/GenericTextArea";
+import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
+import { ICategoryDTO } from "@/app/dtos/categories/CategoryDTO";
+import { createExpenseHttp } from "@/app/http/expenses/createExpense";
+import { listCategoriesHttp } from "@/app/http/categories/listCategories";
+import { CloseDialogButton } from "../../../close-dialog-button/CloseDialogButton";
 
-export function CreateExpenseForm() {
+interface IProps {
+	dateFrom: Date;
+	dateTo: Date;
+}
+
+export function CreateExpenseForm({ dateFrom, dateTo }: IProps) {
 	const form = useForm({
 		resolver: zodResolver(createExpenseSchema),
 		defaultValues: {
 			amount: "0",
-			expense_date: new Date(),
+			date: new Date(),
 			essential: false,
 			recurrent: false,
 		},
 	});
 
-	const { data: categories } = useQuery<ICategoryDTO[]>({
+	const queryClient = useQueryClient();
+
+	const { data: categories, isLoading: isLoadingCategories } = useQuery<
+		ICategoryDTO[]
+	>({
 		queryKey: ["list-categories"],
 		queryFn: listCategoriesHttp,
 		placeholderData: (prev) => prev,
 	});
+
+	const { mutateAsync: createExpense, isPending: isCreatingExpense } =
+		useMutation({
+			mutationKey: ["create-expense"],
+			mutationFn: createExpenseHttp,
+			onSuccess: () => {
+				console.log("on success");
+				queryClient.invalidateQueries({
+					queryKey: ["list-expenses", dateFrom, dateTo],
+				});
+
+				queryClient.invalidateQueries({
+					queryKey: ["get-current-expenses-summary", dateFrom, dateTo],
+				});
+			},
+		});
 
 	const categoriesOptions: IOptionsDTO[] =
 		categories?.map((category) => {
@@ -45,7 +75,14 @@ export function CreateExpenseForm() {
 		}) ?? [];
 
 	function handleCreateExpense(data: CreateExpenseData) {
-		console.log("🚀 ~ handleCreateExpense ~ data:", data);
+		const formattedData: CreateExpenseHttpData = {
+			...data,
+			category_id: Number(data.category_id),
+			amount: Number(data.amount) / 100,
+			date: subHours(data.date, 12),
+		};
+
+		return createExpense(formattedData);
 	}
 
 	return (
@@ -53,16 +90,17 @@ export function CreateExpenseForm() {
 			<form onSubmit={form.handleSubmit(handleCreateExpense)}>
 				<div className="text-page-title"> Nova despesa </div>
 
-				<div className="flex justify-between items-center mt-10">
+				<div className="flex justify-between items-start mt-10">
 					<div className="max-w-[300px]">
 						<FormField
 							control={form.control}
 							name="category_id"
-							render={({ field }) => (
+							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormControl>
 										<GenericCombobox
 											options={categoriesOptions}
+											isLoadingOptions={isLoadingCategories}
 											inputPlaceholder="Pesquisar despesa..."
 											triggerText="Selecione a despesa"
 											emptyText="Nenhuma categoria encontrada"
@@ -70,6 +108,7 @@ export function CreateExpenseForm() {
 											formOnChange={field.onChange}
 											value={field.value}
 											required
+											errorMessage={fieldState.error?.message}
 										/>
 									</FormControl>
 								</FormItem>
@@ -100,7 +139,7 @@ export function CreateExpenseForm() {
 					<div className="max-w-[300px]">
 						<FormField
 							control={form.control}
-							name="expense_date"
+							name="date"
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
@@ -174,11 +213,27 @@ export function CreateExpenseForm() {
 				</div>
 
 				<div className="border-t-1 border-t-light-border mt-10 pt-10">
-					<GenericTextArea label="Descrição" />
+					<FormField
+						control={form.control}
+						name="observation"
+						render={({ field }) => (
+							<GenericTextArea
+								label="Descrição"
+								value={field.value ?? undefined}
+								onChange={field.onChange}
+							/>
+						)}
+					/>
 				</div>
 
-				<div className="mt-10">
-					<GenericButton text="Criar" type="submit" />
+				<div className="mt-10 flex justify-between">
+					<CloseDialogButton text="Fechar" isLoading={isCreatingExpense} />
+
+					<GenericButton
+						text="Criar"
+						type="submit"
+						isLoading={isCreatingExpense}
+					/>
 				</div>
 			</form>
 		</Form>

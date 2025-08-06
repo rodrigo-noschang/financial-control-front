@@ -6,9 +6,10 @@ export const createExpenseSchema = z
 		amount: z
 			.string("Informa a quantia gasta")
 			.min(0.1, "Informe o valor da despesa"),
-		expense_date: z.date("Informe uma data"),
+		date: z.date("Informe uma data"),
 		essential: z.boolean(),
 		recurrent: z.boolean(),
+		observation: z.string().optional().nullable(),
 	})
 	.transform((form) => {
 		const categoryId = form.category_id.split("_||_")[0];
@@ -17,10 +18,19 @@ export const createExpenseSchema = z
 		return {
 			category_id: categoryId,
 			amount,
-			expense_date: form.expense_date,
+			date: form.date,
 			essential: form.essential,
 			recurrent: form.recurrent,
+			observation: form.observation,
 		};
 	});
 
 export type CreateExpenseData = z.infer<typeof createExpenseSchema>;
+
+export type CreateExpenseHttpData = Omit<
+	CreateExpenseData,
+	"category_id" | "amount"
+> & {
+	category_id: number;
+	amount: number;
+};

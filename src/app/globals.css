@@ -18,9 +18,12 @@
   --color-table-row-light: #646464;
   --color-required-start: #fb2020;
   --color-light-border: #C0C0C0;
+  --color-cancel-bg: #c1c1c1;
+  --color-loading-shield: #222;
 
   --text-standard-size: 1.6rem;
   --text-section-title: 1.8rem;
+  --text-error-size: 1.4rem;
   --text-page-title: 2rem;
 }
 

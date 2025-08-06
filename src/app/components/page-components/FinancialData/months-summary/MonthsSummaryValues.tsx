@@ -1,5 +1,6 @@
+import { SkeletonLoad } from "../../../skeleton-load/SkeletonLoad";
+
 import { formatCurrencyValue } from "@/app/utils/formatCurrencyValue";
-import { SkeletonLoad } from "../skeleton-load/SkeletonLoad";
 
 interface IMonthsSummaryValuesProps {
 	rest: number;
@@ -23,7 +24,7 @@ export function MonthsSummaryValues({
 			<div className="flex flex-col">
 				<span className="text-summary-essentials">Essenciais</span>
 				{isLoading ? (
-					<SkeletonLoad width={75} />
+					<SkeletonLoad width={"75px"} />
 				) : (
 					<span className="font-bold min-w-[75px]">
 						{" "}
@@ -35,7 +36,7 @@ export function MonthsSummaryValues({
 			<div className="flex flex-col">
 				<span className="text-summary-rest">Restôio</span>
 				{isLoading ? (
-					<SkeletonLoad width={75} />
+					<SkeletonLoad width={"75px"} />
 				) : (
 					<span className="font-bold min-w-[75px]"> {formattedRest} </span>
 				)}
@@ -44,7 +45,7 @@ export function MonthsSummaryValues({
 			<div className="flex flex-col">
 				<span>Total</span>
 				{isLoading ? (
-					<SkeletonLoad width={75} />
+					<SkeletonLoad width={"75px"} />
 				) : (
 					<span className="font-bold min-w-[75px]"> {formattedTotal} </span>
 				)}

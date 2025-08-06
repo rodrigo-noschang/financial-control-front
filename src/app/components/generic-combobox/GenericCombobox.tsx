@@ -1,3 +1,5 @@
+import React from "react";
+import { cn } from "@/lib/utils";
 import { IoCheckmarkOutline } from "react-icons/io5";
 
 import {
@@ -8,29 +10,33 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import { GenericPopover } from "../geneiric-popover/GenericPopover";
-import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
-import React from "react";
-import { cn } from "@/lib/utils";
+import { GenericPopover } from "../generic-popover/GenericPopover";
 import { ComboboxTrigger } from "../combobox-trigger/ComboboxTrigger";
+
+import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
 
 interface IProps extends React.ComponentProps<"select"> {
 	label: string;
-	triggerText: string;
-	inputPlaceholder: string;
 	emptyText: string;
-	maxWidth?: number;
+	triggerText: string;
 	options: IOptionsDTO[];
+	inputPlaceholder: string;
+
+	maxWidth?: number;
+	errorMessage?: string;
+	isLoadingOptions?: boolean;
 
 	formOnChange?: (value: string) => void;
 }
 
 export function GenericCombobox({
-	options,
-	inputPlaceholder,
-	triggerText,
-	emptyText,
 	label,
+	options,
+	emptyText,
+	triggerText,
+	errorMessage,
+	inputPlaceholder,
+	isLoadingOptions,
 	maxWidth = 300,
 	formOnChange,
 	...rest
@@ -57,7 +63,15 @@ export function GenericCombobox({
 		<GenericPopover
 			trigger={
 				<div>
-					<ComboboxTrigger label={label} text={selectedLabel ?? triggerText} />
+					<ComboboxTrigger
+						label={label}
+						text={selectedLabel ?? triggerText}
+						errorMessage={errorMessage}
+						isLoadingOptions={isLoadingOptions}
+					/>
+					{errorMessage && (
+						<div className="text-red-600 text-error-size">{errorMessage}</div>
+					)}
 				</div>
 			}
 			maxWidth={maxWidth}

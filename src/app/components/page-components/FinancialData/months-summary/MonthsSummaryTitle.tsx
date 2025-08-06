@@ -1,5 +1,5 @@
-import { format, getDate } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { format, getDate } from "date-fns";
 
 interface IProps {
 	startDate: Date;

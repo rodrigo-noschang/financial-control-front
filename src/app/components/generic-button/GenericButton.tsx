@@ -13,6 +13,7 @@ export function GenericButton({ text, isLoading, ...rest }: IProps) {
 	return (
 		<Button
 			{...rest}
+			disabled={rest.disabled || isLoading}
 			className={cn(
 				"bg-sky-700 text-white font-normal px-4 py-2 hover:bg-sky-800 transition-[0.3s] flex items-center",
 				rest.className

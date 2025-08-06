@@ -1,20 +1,21 @@
 "use client";
 
-import { parseAsIsoDate, useQueryStates } from "nuqs";
 import { useQuery } from "@tanstack/react-query";
+import { parseAsIsoDate, useQueryStates } from "nuqs";
 import { addHours, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 
-import { MonthSummary } from "../components/months-summary";
-import { MonthsSummaryTitle } from "../components/months-summary/MonthsSummaryTitle";
-
-import { IExpensesSummaryDTO } from "../dtos/expenses/ExpensesSummaryDTO";
-import { getExpensesSummaryHttp } from "../http/expenses/getExpensesSummary";
-import { ExpensesTable } from "../components/expenses-table/ExpensesTable";
-import { IListExpensesResponseDTO } from "../dtos/responses/ListExpensesResponseDTO";
-import { listExpensesHttp } from "../http/expenses/listExpenses";
-import { CreateExpenseForm } from "../components/create-expense-form/CreateExpenseForm";
 import { GenericDialog } from "../components/generic-dialog/GenericDialog";
 import { GenericButton } from "../components/generic-button/GenericButton";
+import { MonthSummary } from "../components/page-components/FinancialData/months-summary";
+import { ExpensesTable } from "../components/page-components/FinancialData/expenses-table/ExpensesTable";
+import { MonthsSummaryTitle } from "../components/page-components/FinancialData/months-summary/MonthsSummaryTitle";
+import { CreateExpenseForm } from "../components/page-components/FinancialData/create-expense-form/CreateExpenseForm";
+
+import { IExpensesSummaryDTO } from "../dtos/expenses/ExpensesSummaryDTO";
+import { IListExpensesResponseDTO } from "../dtos/responses/ListExpensesResponseDTO";
+
+import { listExpensesHttp } from "../http/expenses/listExpenses";
+import { getExpensesSummaryHttp } from "../http/expenses/getExpensesSummary";
 
 export function FinancialData() {
 	const [paramRange] = useQueryStates(
@@ -48,7 +49,11 @@ export function FinancialData() {
 	const focusMonthsRest = focusMonthsExpensesSummary?.rest ?? 0;
 	const focusMonthsTotal = focusMonthsExpensesSummary?.total ?? 0;
 
-	const { data: listExpensesResponse } = useQuery<IListExpensesResponseDTO>({
+	const {
+		data: listExpensesResponse,
+		isLoading: isLoadingExpenses,
+		isFetching: isRefetchingExpenses,
+	} = useQuery<IListExpensesResponseDTO>({
 		queryKey: ["list-expenses", dateFrom, dateTo],
 		queryFn: () =>
 			listExpensesHttp({
@@ -87,12 +92,16 @@ export function FinancialData() {
 				<div className="mt-20">
 					<GenericDialog
 						trigger={<GenericButton text="Criar despesa" />}
-						content={<CreateExpenseForm />}
+						content={<CreateExpenseForm dateFrom={dateFrom} dateTo={dateTo} />}
 					/>
 				</div>
 
 				<div className="mt-20">
-					<ExpensesTable expenses={expenses} />
+					<ExpensesTable
+						expenses={expenses}
+						isLoadingExpenses={isLoadingExpenses}
+						isRefetchingExpenses={isRefetchingExpenses}
+					/>
 				</div>
 			</div>
 		</div>

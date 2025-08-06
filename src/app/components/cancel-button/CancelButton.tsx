@@ -5,14 +5,20 @@ import { Button } from "@/components/ui/button";
 
 interface IProps extends React.ComponentProps<"button"> {
 	text?: "Cancelar" | "Fechar";
+	isLoading?: boolean;
 }
 
-export function CancelButton({ text = "Cancelar", ...rest }: IProps) {
+export function CancelButton({
+	text = "Cancelar",
+	isLoading,
+	...rest
+}: IProps) {
 	return (
 		<Button
 			{...rest}
+			disabled={rest.disabled || isLoading}
 			className={cn(
-				"bg-gray-200 text-black font-normal hover:bg-gray-300 transition-[0.3s]",
+				"bg-cancel-bg text-black font-normal hover:bg-gray-300 transition-[0.3s]",
 				rest.className
 			)}
 		>
