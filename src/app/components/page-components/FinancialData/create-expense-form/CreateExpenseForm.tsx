@@ -55,7 +55,6 @@ export function CreateExpenseForm({ dateFrom, dateTo }: IProps) {
 			mutationKey: ["create-expense"],
 			mutationFn: createExpenseHttp,
 			onSuccess: () => {
-				console.log("on success");
 				queryClient.invalidateQueries({
 					queryKey: ["list-expenses", dateFrom, dateTo],
 				});
