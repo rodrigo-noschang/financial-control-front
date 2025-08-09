@@ -1,7 +1,7 @@
 import { BsCalendar2Date } from "react-icons/bs";
 
-import { GenericPopover } from "../../../generic-popover/GenericPopover";
-import { CalendarRangeInput } from "../../../calendar-range-input/CalendarRangeInput";
+import { GenericPopover } from "../../../components/generic-popover/GenericPopover";
+import { CalendarRangeInput } from "../../../components/calendar-range-input/CalendarRangeInput";
 
 interface IProps {
 	defaultFrom: Date;

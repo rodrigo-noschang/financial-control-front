@@ -2,7 +2,7 @@
 
 import { api } from "../api";
 
-import { CreateExpenseHttpData } from "@/app/schemas/CreateExpenseSchema";
+import { CreateExpenseHttpData } from "@/app/schemas/expenses/CreateExpenseSchema";
 
 export async function createExpenseHttp(data: CreateExpenseHttpData) {
 	try {

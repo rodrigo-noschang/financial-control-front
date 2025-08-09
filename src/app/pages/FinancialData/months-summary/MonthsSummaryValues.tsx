@@ -1,4 +1,4 @@
-import { SkeletonLoad } from "../../../skeleton-load/SkeletonLoad";
+import { SkeletonLoad } from "../../../components/skeleton-load/SkeletonLoad";
 
 import { formatCurrencyValue } from "@/app/utils/formatCurrencyValue";
 

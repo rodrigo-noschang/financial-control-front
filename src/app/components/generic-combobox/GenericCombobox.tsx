@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { IoCheckmarkOutline } from "react-icons/io5";
+import { IoAddCircleOutline, IoCheckmarkOutline } from "react-icons/io5";
 
 import {
 	Command,
@@ -14,6 +14,8 @@ import { GenericPopover } from "../generic-popover/GenericPopover";
 import { ComboboxTrigger } from "../combobox-trigger/ComboboxTrigger";
 
 import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
+import { GenericDialog } from "../generic-dialog/GenericDialog";
+import { CreateCategoryForm } from "@/app/pages/FinancialData/create-category-form/CreateCategoryForm";
 
 interface IProps extends React.ComponentProps<"select"> {
 	label: string;
@@ -41,10 +43,15 @@ export function GenericCombobox({
 	formOnChange,
 	...rest
 }: IProps) {
+	const [isOpen, setIsOpen] = useState(false);
+	const [createOptionDialogOpen, setCreationOptionDialogOpen] = useState(false);
+
 	function handleSelectOption(option: string) {
 		if (formOnChange) {
 			formOnChange(option);
 		}
+
+		setIsOpen(false);
 	}
 
 	const { selectedValue, selectedLabel } = (() => {
@@ -59,8 +66,15 @@ export function GenericCombobox({
 		};
 	})();
 
+	useEffect(() => {
+		console.log("here");
+		setCreationOptionDialogOpen(false);
+	}, [options]);
+
 	return (
 		<GenericPopover
+			open={isOpen}
+			onOpenChange={setIsOpen}
 			trigger={
 				<div>
 					<ComboboxTrigger
@@ -86,6 +100,21 @@ export function GenericCombobox({
 					<CommandEmpty className="text-standard-color">
 						{emptyText}
 					</CommandEmpty>
+
+					<GenericDialog
+						open={createOptionDialogOpen}
+						onOpenChange={setCreationOptionDialogOpen}
+						trigger={
+							<div className="pr-4">
+								<div className="flex items-center text-standard-color py-1 px-4 cursor-pointer border-1 border-standard-color gap-2 rounded-md mt-2 hover:bg-box-bg">
+									<IoAddCircleOutline size={16} />
+									<span> Criar Categoria </span>
+								</div>
+							</div>
+						}
+						content={<CreateCategoryForm />}
+					/>
+
 					<CommandGroup value={rest.value as string | undefined}>
 						{options.map((option) => (
 							<CommandItem
@@ -93,7 +122,7 @@ export function GenericCombobox({
 								value={`${option.value}_||_${option.label}`}
 								onSelect={handleSelectOption}
 								className={cn(
-									"rounded-md border-1 border-transparent text-standard-color hover:cursor-pointer hover:bg-standard-color hover:text-black",
+									"rounded-md border-1 border-transparent text-standard-color hover:cursor-pointer hover:bg-standard-color hover:text-black mr-4",
 									selectedValue === option.value
 										? "bg-standard-color border-page-bg text-black"
 										: "bg-inherit"

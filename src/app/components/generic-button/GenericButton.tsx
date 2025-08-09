@@ -15,20 +15,20 @@ export function GenericButton({ text, isLoading, ...rest }: IProps) {
 			{...rest}
 			disabled={rest.disabled || isLoading}
 			className={cn(
-				"bg-sky-700 text-white font-normal px-4 py-2 hover:bg-sky-800 transition-[0.3s] flex items-center",
+				"bg-sky-700 text-white font-normal px-4 py-2 hover:bg-sky-800 transition-[0.3s] flex items-center justify-center gap-0",
 				rest.className
 			)}
 		>
 			<span
 				className={cn(
-					"text-red-200 inline-block transition-[0.3s] overflow-hidden",
+					"text-red-200 transition-[0.3s] overflow-hidden",
 					isLoading ? "w-[20px] mr-2" : "w-0 mr-0"
 				)}
 			>
 				<PuffLoader size={20} loading={isLoading} color="#D1D1D1" />
 			</span>
 
-			<span className="inline-block">{text}</span>
+			<span className="">{text}</span>
 		</Button>
 	);
 }

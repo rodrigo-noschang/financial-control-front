@@ -6,15 +6,20 @@ import {
 	PopoverTrigger,
 } from "@/components/ui/popover";
 
-interface IProps {
+interface IProps extends React.ComponentPropsWithoutRef<typeof Popover> {
 	trigger: ReactNode;
 	children: ReactNode;
 	maxWidth?: number;
 }
 
-export function GenericPopover({ trigger, children, maxWidth = 320 }: IProps) {
+export function GenericPopover({
+	trigger,
+	children,
+	maxWidth = 320,
+	...rest
+}: IProps) {
 	return (
-		<Popover>
+		<Popover {...rest}>
 			<PopoverTrigger asChild>{trigger}</PopoverTrigger>
 
 			<PopoverContent

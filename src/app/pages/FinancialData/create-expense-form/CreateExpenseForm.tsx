@@ -4,25 +4,25 @@ import { BsCalendar2Date } from "react-icons/bs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { GenericTextArea } from "../../../text-area/GenericTextArea";
-import { CurrencyInput } from "../../../currency-input/CurrencyInput";
-import { GenericButton } from "../../../generic-button/GenericButton";
-import { CalendarInput } from "../../../calendar-input/CalendarInput";
-import { GenericPopover } from "../../../generic-popover/GenericPopover";
-import { GenericCombobox } from "../../../generic-combobox/GenericCombobox";
-import { GenericCheckbox } from "../../../generic-checkbox/GenericCheckbox";
+import { GenericTextArea } from "../../../components/text-area/GenericTextArea";
+import { CurrencyInput } from "../../../components/currency-input/CurrencyInput";
+import { GenericButton } from "../../../components/generic-button/GenericButton";
+import { CalendarInput } from "../../../components/calendar-input/CalendarInput";
+import { GenericPopover } from "../../../components/generic-popover/GenericPopover";
+import { GenericCombobox } from "../../../components/generic-combobox/GenericCombobox";
+import { GenericCheckbox } from "../../../components/generic-checkbox/GenericCheckbox";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 
 import {
 	CreateExpenseData,
 	CreateExpenseHttpData,
 	createExpenseSchema,
-} from "@/app/schemas/CreateExpenseSchema";
+} from "@/app/schemas/expenses/CreateExpenseSchema";
 import { IOptionsDTO } from "@/app/dtos/options/OptionsDTO";
 import { ICategoryDTO } from "@/app/dtos/categories/CategoryDTO";
 import { createExpenseHttp } from "@/app/http/expenses/createExpense";
 import { listCategoriesHttp } from "@/app/http/categories/listCategories";
-import { CloseDialogButton } from "../../../close-dialog-button/CloseDialogButton";
+import { CloseDialogButton } from "../../../components/close-dialog-button/CloseDialogButton";
 
 interface IProps {
 	dateFrom: Date;
@@ -37,6 +37,8 @@ export function CreateExpenseForm({ dateFrom, dateTo }: IProps) {
 			date: new Date(),
 			essential: false,
 			recurrent: false,
+			category_id: undefined,
+			observation: "",
 		},
 	});
 
@@ -62,6 +64,8 @@ export function CreateExpenseForm({ dateFrom, dateTo }: IProps) {
 				queryClient.invalidateQueries({
 					queryKey: ["get-current-expenses-summary", dateFrom, dateTo],
 				});
+
+				form.reset();
 			},
 		});
 

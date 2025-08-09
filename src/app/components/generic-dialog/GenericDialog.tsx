@@ -7,15 +7,20 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 
-interface IProps {
+interface IProps extends React.ComponentPropsWithRef<typeof Dialog> {
 	trigger: ReactNode;
 	content: ReactNode;
 	maxWidth?: number;
 }
 
-export function GenericDialog({ trigger, content, maxWidth = 450 }: IProps) {
+export function GenericDialog({
+	trigger,
+	content,
+	maxWidth = 450,
+	...rest
+}: IProps) {
 	return (
-		<Dialog>
+		<Dialog {...rest}>
 			<DialogTrigger asChild>{trigger}</DialogTrigger>
 
 			<DialogContent

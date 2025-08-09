@@ -6,10 +6,10 @@ import { addHours, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 
 import { GenericDialog } from "../components/generic-dialog/GenericDialog";
 import { GenericButton } from "../components/generic-button/GenericButton";
-import { MonthSummary } from "../components/page-components/FinancialData/months-summary";
-import { ExpensesTable } from "../components/page-components/FinancialData/expenses-table/ExpensesTable";
-import { MonthsSummaryTitle } from "../components/page-components/FinancialData/months-summary/MonthsSummaryTitle";
-import { CreateExpenseForm } from "../components/page-components/FinancialData/create-expense-form/CreateExpenseForm";
+import { MonthSummary } from "./FinancialData/months-summary";
+import { ExpensesTable } from "./FinancialData/expenses-table/ExpensesTable";
+import { MonthsSummaryTitle } from "./FinancialData/months-summary/MonthsSummaryTitle";
+import { CreateExpenseForm } from "./FinancialData/create-expense-form/CreateExpenseForm";
 
 import { IExpensesSummaryDTO } from "../dtos/expenses/ExpensesSummaryDTO";
 import { IListExpensesResponseDTO } from "../dtos/responses/ListExpensesResponseDTO";
