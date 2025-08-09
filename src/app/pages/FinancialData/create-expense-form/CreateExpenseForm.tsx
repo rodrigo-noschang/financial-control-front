@@ -23,6 +23,7 @@ import { ICategoryDTO } from "@/app/dtos/categories/CategoryDTO";
 import { createExpenseHttp } from "@/app/http/expenses/createExpense";
 import { listCategoriesHttp } from "@/app/http/categories/listCategories";
 import { CloseDialogButton } from "../../../components/close-dialog-button/CloseDialogButton";
+import toast from "react-hot-toast";
 
 interface IProps {
 	dateFrom: Date;
@@ -64,6 +65,8 @@ export function CreateExpenseForm({ dateFrom, dateTo }: IProps) {
 				queryClient.invalidateQueries({
 					queryKey: ["get-current-expenses-summary", dateFrom, dateTo],
 				});
+
+				toast.success("Despesa cadastrada com sucesso");
 
 				form.reset();
 			},

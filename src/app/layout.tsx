@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { QueryClientProvider } from "./providers/query-client";
@@ -20,7 +21,10 @@ export default function RootLayout({
 		<html lang="en">
 			<body className="w-dvw h-dvh bg-page-bg text-standard-color text-standard-size">
 				<QueryClientProvider>
-					<NuqsAdapter>{children}</NuqsAdapter>
+					<NuqsAdapter>
+						{children}
+						<Toaster toastOptions={{ position: "top-left" }} />
+					</NuqsAdapter>
 				</QueryClientProvider>
 			</body>
 		</html>

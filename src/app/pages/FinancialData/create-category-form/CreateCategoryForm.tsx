@@ -9,6 +9,7 @@ import {
 } from "@/app/schemas/categories/CreateCategorySchema";
 import { createCategoryHttp } from "@/app/http/categories/createCategory";
 import { ZodError } from "zod";
+import toast from "react-hot-toast";
 
 export function CreateCategoryForm() {
 	const [error, setError] = useState("");
@@ -23,17 +24,19 @@ export function CreateCategoryForm() {
 				queryClient.invalidateQueries({
 					queryKey: ["list-categories"],
 				});
+
+				toast.success("Categoria criada com sucess");
 			},
 		});
 
-	function handleCreateCategory() {
+	async function handleCreateCategory() {
 		const name = nameInputRef.current?.value ?? "";
 
 		const data: CreateCategoryData = { name };
 
 		try {
 			createCategorySchema.parse(data);
-			return createCategory(data);
+			return await createCategory(data);
 		} catch (error: unknown) {
 			let errorMessage = "Não foi possivel criar a categoria";
 
