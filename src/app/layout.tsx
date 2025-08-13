@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="w-dvw h-dvh bg-page-bg text-standard-color text-standard-size">
+			<body className="h-dvh bg-page-bg text-standard-color text-standard-size">
 				<QueryClientProvider>
 					<NuqsAdapter>
 						{children}

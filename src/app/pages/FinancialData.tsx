@@ -11,6 +11,7 @@ import { ExpensesTable } from "./FinancialData/expenses-table/ExpensesTable";
 import { MonthsSummaryTitle } from "./FinancialData/months-summary/MonthsSummaryTitle";
 import { CreateExpenseForm } from "./FinancialData/create-expense-form/CreateExpenseForm";
 
+import { IPaginationDTO } from "../dtos/pagination/PagiationDTO";
 import { IExpensesSummaryDTO } from "../dtos/expenses/ExpensesSummaryDTO";
 import { IListExpensesResponseDTO } from "../dtos/responses/ListExpensesResponseDTO";
 
@@ -64,6 +65,8 @@ export function FinancialData() {
 	});
 
 	const expenses = listExpensesResponse?.expenses ?? [];
+	const paginationInfo =
+		listExpensesResponse?.pagination ?? ({} as IPaginationDTO);
 
 	return (
 		<div className="flex justify-center">
@@ -99,6 +102,7 @@ export function FinancialData() {
 				<div className="mt-20">
 					<ExpensesTable
 						expenses={expenses}
+						paginationInfo={paginationInfo}
 						isLoadingExpenses={isLoadingExpenses}
 						isRefetchingExpenses={isRefetchingExpenses}
 					/>
