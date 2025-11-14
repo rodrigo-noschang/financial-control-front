@@ -1,7 +1,12 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { parseAsIsoDate, useQueryStates } from "nuqs";
+import {
+	parseAsInteger,
+	parseAsIsoDate,
+	useQueryState,
+	useQueryStates,
+} from "nuqs";
 import { addHours, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 
 import { GenericDialog } from "../components/generic-dialog/GenericDialog";
@@ -29,6 +34,8 @@ export function FinancialData() {
 		}
 	);
 
+	const [page] = useQueryState("page", parseAsInteger.withDefault(1));
+
 	const dateFrom = addHours(paramRange.from, 12);
 	const dateTo = addHours(paramRange.to, 12);
 
@@ -55,11 +62,12 @@ export function FinancialData() {
 		isLoading: isLoadingExpenses,
 		isFetching: isRefetchingExpenses,
 	} = useQuery<IListExpensesResponseDTO>({
-		queryKey: ["list-expenses", dateFrom, dateTo],
+		queryKey: ["list-expenses", dateFrom, dateTo, page],
 		queryFn: () =>
 			listExpensesHttp({
 				startDate: dateFrom,
 				endDate: dateTo,
+				page,
 			}),
 		placeholderData: (prev) => prev,
 	});

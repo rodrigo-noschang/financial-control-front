@@ -8,17 +8,20 @@ import { IListExpensesResponseDTO } from "@/app/dtos/responses/ListExpensesRespo
 interface IRequest {
 	startDate?: Date;
 	endDate?: Date;
+	page?: number;
 }
 
 export async function listExpensesHttp({
 	startDate,
 	endDate,
+	page,
 }: IRequest): Promise<IListExpensesResponseDTO> {
 	try {
 		const response = await api.get("/expense", {
 			params: {
 				start_date: startDate,
 				end_date: endDate,
+				page,
 			},
 		});
 
