@@ -13,20 +13,40 @@ export function Pagination({ paginationInfo }: IProps) {
 
 	const { page, total, page_size } = paginationInfo;
 
-	const pagesAmount = Math.ceil(total / page_size);
+	const pagesAmount = Math.ceil(total / page_size) || 1;
 
 	const pages = (() => {
-		const allPages = new Array(5).fill(0).map((_, index) => index + 1);
+		const maxPagesToShow = 5;
 
-		const firstIndex = page <= 3 ? 0 : page - 1;
-
-		let lastIndex = page >= pagesAmount - 3 ? pagesAmount : page;
-		if (lastIndex < 5) {
-			lastIndex = 5;
+		// If we have 5 or fewer pages, show all of them
+		if (pagesAmount <= maxPagesToShow) {
+			return Array.from({ length: pagesAmount }, (_, i) => i + 1);
 		}
 
-		const shownPages = allPages.slice(firstIndex, lastIndex);
-		return shownPages;
+		// We have more than 5 pages, need to show a window of 5
+		let startPage: number;
+		let endPage: number;
+
+		// If current page is near the beginning
+		if (page <= 3) {
+			startPage = 1;
+			endPage = maxPagesToShow;
+		}
+		// If current page is near the end
+		else if (page >= pagesAmount - 2) {
+			startPage = pagesAmount - maxPagesToShow + 1;
+			endPage = pagesAmount;
+		}
+		// Current page is in the middle
+		else {
+			startPage = page - 2;
+			endPage = page + 2;
+		}
+
+		return Array.from(
+			{ length: endPage - startPage + 1 },
+			(_, i) => startPage + i
+		);
 	})();
 
 	function choosePage(page: string) {
