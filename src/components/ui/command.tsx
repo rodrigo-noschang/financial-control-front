@@ -86,13 +86,24 @@ function CommandList({
 	className,
 	...props
 }: React.ComponentProps<typeof CommandPrimitive.List>) {
+	const listRef = React.useRef<HTMLDivElement>(null);
+
+	const handleWheel = React.useCallback((e: React.WheelEvent) => {
+		if (listRef.current) {
+			e.stopPropagation();
+			listRef.current.scrollTop += e.deltaY;
+		}
+	}, []);
+
 	return (
 		<CommandPrimitive.List
+			ref={listRef}
 			data-slot="command-list"
 			className={cn(
 				"max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto",
 				className
 			)}
+			onWheel={handleWheel}
 			{...props}
 		/>
 	);

@@ -55,7 +55,8 @@ export function GenericCombobox({
 	}
 
 	const { selectedValue, selectedLabel } = (() => {
-		if (!rest.value || typeof rest.value !== "string") return {};
+		if (!rest.value || typeof rest.value !== "string")
+			return { selectedValue: undefined, selectedLabel: undefined };
 
 		const selectedOptionValue = rest.value.split("_||_")[0];
 		const selectedOptionLabel = rest.value.split("_||_")[1];
